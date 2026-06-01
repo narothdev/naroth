@@ -1,0 +1,24 @@
+/* report.css - custom font setup for Odoo reports */
+
+/* Register KhmerOS font */
+@font-face {
+    font-family: 'KhmerOS_siemreap';
+    src: url('/report_and_form/static/src/fonts/KhmerOS_siemreap.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Register KhmerOS font */
+@font-face {
+    font-family: 'KhmerMuolRegular';
+    src: url('/report_and_form/static/src/fonts/KhmerMuolRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+h2 {
+    font-family:'KhmerMuolRegular'!important;
+}
+/* Apply Khmer fonts globally in reports */
+body,td, th, strong, h1,h3, h4, h5, h6, p {
+    font-family:'KhmerOS_siemreap', sans-serif !important;
+}
+

@@ -1,0 +1,220 @@
+<odoo>
+    <template id="po_layout">
+        <t t-set="head_css">
+            <link rel="stylesheet" href="/web/static/lib/bootstrap/dist/css/bootstrap.min.css"/>
+            <link rel="stylesheet" href="/report_and_form/static/src/css/report.css"/>
+        </t>
+        <div class="header"
+            style="font-family:'KhmerOS_siemreap','KhmerOSMuolLightRegular','NotoSansKhmer',sans-serif;margin-bottom:0;">
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0" />
+        </div>
+        <div class="footer o_standard_footer text-center"
+            style="height:20px;">
+            <p class="text-center">
+                <strong>Powered by Sunfix Consulting (Cambodia) Co.,Ltd</strong>
+            </p>
+        </div>
+
+    </template>
+    <template id="new_order_form">
+        <t t-call="web.html_container">
+            <t t-call="report_and_form.po_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page"
+                        style="font-family:'KhmerOS_siemreap','KhmerMuolRegular','NotoSansKhmer',sans-serif;">
+                        <div class="row">
+                            <div class="col d-block text-start">
+                                <div t-field="o.name"
+                                    t-options="{'widget': 'barcode', 'img_style':
+                                'width:200px;height:70px;margin-left:-35px;padding:0;'}">
+                                </div>
+                                <strong><span style="font-size:14px;padding-left:27px;" />*<t
+                                        t-esc="o.name" />*</strong>
+                            </div>
+                            <div class="col pt-2 text-center">
+                                <h2 style="font-family:'KhmerMuolRegular';">ប័ណ្ណបញ្ជាទិញ</h2>
+                                <h4>Purchase Order</h4>
+                            </div>
+                            <div class="col text-end">
+                                <t t-if="o.company_id.logo">
+                                    <img t-att-src="image_data_uri(o.company_id.logo)"
+                                        style="max-height: 100px; max-width: 180px;"
+                                        alt="Company Logo" />
+                                </t>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-8 pt-1">
+                                <strong>លេខបញ្ជាទិញ /​ PO #:<span>
+                                        <t t-esc="o.name" />
+                                    </span></strong><br />
+                                កាលបរិច្ឆេទ / Date: <span>
+                                    <t t-esc="o.date_order" />
+                                </span><br />
+                                អ្នកផ្គត់ផ្គង់ / Supplier Name: <span>
+                                    <t t-esc="o.partner_id.name" />
+                                </span><br />
+                                ជូនចំពោះ / ​Attend To: <span>Kim
+                                    </span><br /> លេខទូរស័ព្ទ / Phone: <span>
+                                    <t t-esc="o.partner_id.phone" />
+                                </span><br />
+                                អាសយដ្ឋាន / Ship To Address: <span>
+                                    <t t-esc="o.partner_id.street" />
+                                </span><br />
+                                ដឹកជញ្ជូន / Shipment Agent Code: <span></span><br />
+                                លក្ខខ័ណ្ឌដឹកជញ្ជូន / Shipment Method Code: <span>Boat</span>
+                            </div>
+                            <div class="col-4 text-end">
+                                <strong t-esc="o.company_id.name" />
+                                <br />
+                                <span t-esc="o.company_id.street" />
+                                <br />
+                                <strong>Phone: </strong>
+                                <span t-esc="o.company_id.phone" />
+                            </div>
+
+                        </div>
+                        <table class="table table-bordered mt-3" style="border:1px solid #E6E6E6;">
+                            <thead class="text-dark" style="background-color:#E6E6E6;">
+                                <tr>
+                                    <th class="text-center" style="width: 5%;">
+                                        <strong>ល.រ <br />No</strong>
+                                    </th>
+                                    <th class="text-start" style="width: 40%;">
+                                        <strong>បរិយាយ <br />Description</strong>
+                                    </th>
+                                    <th class="text-center" style="width: 10%;">
+                                        <strong>ចំនួន <br />Qty </strong>
+                                    </th>
+                                    <th class="text-center" style="width: 15%;">
+                                        <strong>ចំនួនក្បាលមាន់ <br />No. of Broiler Head</strong>
+                                    </th>
+                                    <th class="text-end" style="width: 15%;">
+                                        <strong>តម្លៃ <br />Unit Price</strong>
+                                    </th>
+                                    <th class="text-end" style="width: 15%;">
+                                        <strong>សរុប <br />Total</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Real order lines -->
+                                <tr t-foreach="o.get_line()" t-as="line">
+                                    <td class="text-center" t-esc="line['no']" />
+                                    <td>
+                                        <span t-esc="line['name']" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="line['qty']" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span></span>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="line['unit_price']" />
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="line['subtotal']" />
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" style="border-bottom:1px solid #FFFFFF;">
+                                        <span></span>
+                                    </td>
+                                    <td colspan="2" class="text-end"
+                                        style="background-color:#E6E6E6;">
+                                        <strong>សរុប / Sub Total</strong>
+                                    </td>
+                                    <td class="text-end" style="background-color:#E6E6E6;">
+                                        <strong>
+                                            <span t-esc="o.amount_total" />
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:1px solid #FFFFFF;">
+                                        <span></span>
+                                    </td>
+                                    <td colspan="2" class="text-end"
+                                        style="background-color:#F2F2F2;">
+                                        <strong>បញ្ចុះតម្លៃ / Discount Amount</strong>
+                                    </td>
+                                    <td class="text-end" style="background-color:#F2F2F2;">
+                                        <span>-USD</span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:1px solid #FFFFFF;">
+                                        <span></span>
+                                    </td>
+                                    <td colspan="2" class="text-end"
+                                        style="background-color:#F2F2F2;">
+                                        <strong>ពន្ធអាករ / VAT Amount</strong>
+                                    </td>
+                                    <td class="text-end" style="background-color:#F2F2F2;">
+                                        <span t-esc="o.amount_tax" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:1px solid #FFFFFF;">
+                                        <strong></strong>
+                                    </td>
+                                    <td colspan="2" class="text-end"
+                                        style="background-color:#E6E6E6;">
+                                        <strong>ទឹកប្រាក់ត្រូវទូទាត់ / Grand Total</strong>
+                                    </td>
+                                    <td class="text-end" style="background-color:#E6E6E6;">
+                                        <strong>
+                                            <span t-esc="o.amount_total" />
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="row text-center" style="height:150px;margin-top:50px;">
+                            <div class="col-3 border-bottom">
+                                <p>ហត្ថលេខា/Signature</p>
+                            </div>
+                            <div class="col-1">
+                            </div>
+                            <div class="col-4 border-bottom">
+                                <p>ហត្ថលេខា/Signature</p>
+                            </div>
+                            <div class="col-1 ">
+
+                            </div>
+                            <div class="col-3 border-bottom">
+                                <p>ហត្ថលេខា/Signature</p>
+                            </div>
+                        </div>
+                        <!-- footer -->
+                        <div class="row text-center">
+                            <div class="col-3">
+                                <p>រៀបចំដោយ/Prepared By</p>
+                            </div>
+                            <div class="col-1">
+                            </div>
+                            <div class="col-4">
+                                <p>អនុម័តដោយ/Approved By</p>
+                            </div>
+                            <div class="col-1 ">
+
+                            </div>
+                            <div class="col-3">
+                                <p>អ្នកផ្គត់ផ្គង់/Supplier</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
